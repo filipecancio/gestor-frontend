@@ -43,7 +43,7 @@ fun TransactionItem(
         }
     }
     Text(
-        text = transaction.value,
+        text = transaction.moneyValue,
         color = gray01,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp
@@ -53,4 +53,4 @@ fun TransactionItem(
 @Preview(showBackground = false)
 @Composable
 fun TransactionPreview() =
-    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", "R$59,90", TransactionType.Credit))
+    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", 59.90, TransactionType.Credit))

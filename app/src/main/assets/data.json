@@ -1,0 +1,38 @@
+[
+  {
+    "description": "IPTU",
+    "bank": "NuConta - (01/05)",
+    "value": 59.90,
+    "type": 0
+  },
+  {
+    "description": "IPTU",
+    "bank": "NuConta - (01/05)",
+    "value": 59.90,
+    "type": 0
+  },
+  {
+    "description": "IPTU",
+    "bank": "NuConta - (01/05)",
+    "value": 59.90,
+    "type": 0
+  },
+  {
+    "description": "IPTU",
+    "bank": "NuConta - À vista",
+    "value": 59.90,
+    "type": 1
+  },
+  {
+    "description": "Viagem Bahia",
+    "bank": "NuConta - À vista",
+    "value": 59.90,
+    "type": 1
+  },
+  {
+    "description": "Viagem Bahia",
+    "bank": "NuConta - À vista",
+    "value": 59.90,
+    "type": 1
+  }
+]

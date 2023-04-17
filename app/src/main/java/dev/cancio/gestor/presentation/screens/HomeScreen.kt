@@ -1,5 +1,6 @@
 package dev.cancio.gestor.presentation.screens
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.cancio.gestor.domain.TransactionType
@@ -21,7 +21,7 @@ import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(context: Context) {
     val repository = TransactionRepository()
     Column(
         Modifier
@@ -69,17 +69,9 @@ fun HomeScreen() {
         }
         Spacer(modifier = Modifier.height(30.dp))
         LazyColumn() {
-            items(repository.getTransactions()) {
+            items(repository.getTransactionsFromJson(context)) {
                 TransactionItem(transaction = it)
             }
         }
     }
 }
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun HomeScreenPreview(
-) = HomeScreen()
