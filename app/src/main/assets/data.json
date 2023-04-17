@@ -3,36 +3,42 @@
     "description": "IPTU",
     "bank": "NuConta - (01/05)",
     "value": 59.90,
+    "timestamp": "2023-04-17T08:18:34.752Z",
     "type": 0
   },
   {
     "description": "IPTU",
     "bank": "NuConta - (01/05)",
     "value": 59.90,
+    "timestamp": "2023-04-13T08:18:34.752Z",
     "type": 0
   },
   {
     "description": "IPTU",
     "bank": "NuConta - (01/05)",
     "value": 59.90,
+    "timestamp": "2023-04-09T08:18:34.752Z",
     "type": 0
   },
   {
     "description": "IPTU",
     "bank": "NuConta - À vista",
     "value": 59.90,
+    "timestamp": "2023-04-06T08:18:34.752Z",
     "type": 1
   },
   {
     "description": "Viagem Bahia",
     "bank": "NuConta - À vista",
     "value": 59.90,
+    "timestamp": "2023-04-02T08:18:34.752Z",
     "type": 1
   },
   {
     "description": "Viagem Bahia",
     "bank": "NuConta - À vista",
     "value": 59.90,
+    "timestamp": "2023-04-01T08:18:34.752Z",
     "type": 1
   }
 ]

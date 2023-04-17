@@ -1,5 +1,8 @@
 package dev.cancio.gestor.ui.components.atom
 
+import android.icu.util.Calendar
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +16,9 @@ import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
+import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TransactionItem(
     transaction: Transaction
@@ -36,7 +41,7 @@ fun TransactionItem(
                 fontSize = 18.sp
             )
             Text(
-                text = transaction.bank,
+                text = transaction.dateFormat,
                 color = gray03,
                 fontSize = 18.sp
             )
@@ -50,7 +55,8 @@ fun TransactionItem(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = false)
 @Composable
 fun TransactionPreview() =
-    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", 59.90, TransactionType.Credit))
+    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", 59.90, Date(), TransactionType.Credit))
