@@ -40,7 +40,7 @@ fun TransactionItem(
                 fontSize = 18.sp
             )
             Text(
-                text = transaction.dateFormat,
+                text = transaction.bank,
                 color = gray03,
                 fontSize = 18.sp
             )
