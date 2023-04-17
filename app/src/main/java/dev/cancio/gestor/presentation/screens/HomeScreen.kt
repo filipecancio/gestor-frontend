@@ -1,6 +1,7 @@
 package dev.cancio.gestor.presentation.screens
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -9,6 +10,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,6 +28,7 @@ import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
 import java.text.DecimalFormat
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -31,7 +36,8 @@ import java.text.DecimalFormat
 fun HomeScreen() {
     val repository = TransactionRepository(LocalContext.current)
     val totalValue = repository.getTotalTransactionsValues()
-    val currentList = repository.getTransactions(TransactionType.Debt)
+    val currentList = remember { mutableStateOf(repository.getTransactions()) }
+    val filterValue = remember { mutableStateOf("none") }
 
     Column(
         Modifier
@@ -57,12 +63,12 @@ fun HomeScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Restante à pagar",
+                text = if (totalValue["total"]!! > 0.0){"Restante à pagar"} else {"Valor Sobrando"},
                 color = gray03,
                 fontSize = 18.sp
             )
             Text(
-                text = "R$ ${DecimalFormat("#.##").format(totalValue["total"])}",
+                text = "R$ ${DecimalFormat("#.##").format(totalValue["total"]?.absoluteValue)}",
                 color = gray01,
                 fontSize = 32.sp
             )
@@ -74,16 +80,33 @@ fun HomeScreen() {
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ){
-            TransactionCard(value = "R$ ${DecimalFormat("#.##").format(totalValue["credit"])}", type = TransactionType.Credit)
-            TransactionCard(value = "R$ ${DecimalFormat("#.##").format(totalValue["debt"])}", type = TransactionType.Debt)
+            TransactionCard(value = "R$ ${DecimalFormat("#.##").format(totalValue["credit"])}", type = TransactionType.Credit, selected = (filterValue.value == "credit")){
+                if(filterValue.value == "none" || filterValue.value == "debt" ){
+                    filterValue.value = "credit"
+                    currentList.value = repository.getTransactions(TransactionType.Credit)
+                }else{
+                    filterValue.value = "none"
+                    currentList.value = repository.getTransactions()
+                }
+            }
+            TransactionCard(value = "R$ ${DecimalFormat("#.##").format(totalValue["debt"])}", type = TransactionType.Debt, selected = (filterValue.value == "debt")){
+                if(filterValue.value == "none" || filterValue.value == "credit" ){
+                    filterValue.value = "debt"
+                    currentList.value = repository.getTransactions(TransactionType.Debt)
+                }else{
+                    filterValue.value = "none"
+                    currentList.value = repository.getTransactions()
+                }
+            }
         }
         Spacer(modifier = Modifier.height(30.dp))
         LazyColumn() {
-            currentList.forEach{(date,transactionItems)->
+            currentList.value.forEach{(date,transactionItems)->
                 stickyHeader {
                     TransactionHeader(date)
                 }
                 items(transactionItems) {
+                    Log.i("update",transactionItems.toString())
                     TransactionItem(transaction = it)
                 }
             }
