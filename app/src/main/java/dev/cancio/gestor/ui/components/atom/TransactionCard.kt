@@ -14,13 +14,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.ui.theme.dark01
 import dev.cancio.gestor.ui.theme.gray01
 
 @Composable
 fun TransactionCard(
     value: String,
-    type: TransactionIconType
+    type: TransactionType
 ) = Row(
     Modifier
         .background(
@@ -50,6 +51,6 @@ fun TransactionCard(
 @Preview(showBackground = false)
 @Composable
 fun TransactionCardPreview() = Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-    TransactionCard(value = "R$249,50", type = TransactionIconType.Credit)
-    TransactionCard(value = "R$150,50", type = TransactionIconType.Debt)
+    TransactionCard(value = "R$249,50", type = TransactionType.Credit)
+    TransactionCard(value = "R$150,50", type = TransactionType.Debt)
 }

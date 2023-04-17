@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.ui.components.atom.TransactionCard
-import dev.cancio.gestor.ui.components.atom.TransactionIconType
 import dev.cancio.gestor.ui.components.atom.TransactionItem
 import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
@@ -61,8 +61,8 @@ fun HomeScreen() = Column(
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceAround
             ){
-        TransactionCard(value = "R$249,50", type = TransactionIconType.Credit)
-        TransactionCard(value = "R$150,50", type = TransactionIconType.Debt)
+        TransactionCard(value = "R$249,50", type = TransactionType.Credit)
+        TransactionCard(value = "R$150,50", type = TransactionType.Debt)
     }
     Spacer(modifier = Modifier.height(30.dp))
     LazyColumn() {
@@ -84,7 +84,7 @@ data class Transaction(
     val description: String,
     val bank: String,
     val value: String,
-    val type: TransactionIconType
+    val type: TransactionType
 )
 
 val transactionList = listOf<Transaction>(
@@ -92,36 +92,36 @@ val transactionList = listOf<Transaction>(
         "IPTU",
         "NuConta - (01/05)",
         "R$59,90",
-        TransactionIconType.Credit
+        TransactionType.Credit
     ),
     Transaction(
         "Troca de Oleo",
         "NuConta - (01/10)",
         "R$59,90",
-        TransactionIconType.Credit
+        TransactionType.Credit
     ),
     Transaction(
         "Limpeza de Ar Cond.",
         "NuConta - (01/05)",
         "R$59,90",
-        TransactionIconType.Credit
+        TransactionType.Credit
     ),
     Transaction(
         "Licença Antivírus",
         "NuConta - À vista",
         "R$59,90",
-        TransactionIconType.Debt
+        TransactionType.Debt
     ),
     Transaction(
         "Viagem Bahia",
         "NuConta - À vista",
         "R$59,90",
-        TransactionIconType.Debt
+        TransactionType.Debt
     ),
     Transaction(
         "Viagem Bahia",
         "NuConta - À vista",
         "R$59,90",
-        TransactionIconType.Debt
+        TransactionType.Debt
     )
 )

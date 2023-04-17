@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.presentation.screens.Transaction
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
@@ -52,4 +53,4 @@ fun TransactionItem(
 @Preview(showBackground = false)
 @Composable
 fun TransactionPreview() =
-    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", "R$59,90", TransactionIconType.Credit))
+    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", "R$59,90", TransactionType.Credit))
