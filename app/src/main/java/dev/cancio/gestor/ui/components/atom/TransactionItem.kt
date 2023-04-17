@@ -9,8 +9,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
-import dev.cancio.gestor.presentation.screens.Transaction
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
 
