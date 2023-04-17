@@ -39,6 +39,11 @@ class TransactionRepository(
         .filter { it.type == type }
         .groupBy { it.dateFormat }
 
+    fun getTransactions(description:String) = getTransactionsFromJson()
+        .sortedByDescending { it.timestamp }
+        .filter { it.description == description }
+        .groupBy { it.dateFormat }
+
     private fun getTransactionsSum(type: TransactionType) = getTransactionsFromJson()
         .sortedByDescending { it.timestamp }
         .filter { it.type == type }
