@@ -2,10 +2,10 @@ package dev.cancio.gestor.domain
 
 import android.icu.util.Calendar
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 
 data class Transaction(
@@ -16,7 +16,7 @@ data class Transaction(
     val type: TransactionType
 ) {
     val moneyValue: String
-    get() = "R$ ${value.toString()}"
+    get() = "R$ ${DecimalFormat("#.##").format(value)}"
 
     val date: Calendar
     @RequiresApi(Build.VERSION_CODES.O)

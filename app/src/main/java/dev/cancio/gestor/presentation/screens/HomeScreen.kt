@@ -21,6 +21,7 @@ import dev.cancio.gestor.ui.components.atom.TransactionItem
 import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
+import java.text.DecimalFormat
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -74,8 +75,8 @@ fun HomeScreen(context: Context) {
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ){
-            TransactionCard(value = "R$ $totalCredit", type = TransactionType.Credit)
-            TransactionCard(value = "R$ $totalDebt", type = TransactionType.Debt)
+            TransactionCard(value = "R$ ${DecimalFormat("#.##").format(totalCredit)}", type = TransactionType.Credit)
+            TransactionCard(value = "R$ ${DecimalFormat("#.##").format(totalDebt)}", type = TransactionType.Debt)
         }
         Spacer(modifier = Modifier.height(30.dp))
         LazyColumn() {
