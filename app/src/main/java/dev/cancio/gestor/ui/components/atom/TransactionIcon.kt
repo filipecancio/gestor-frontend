@@ -36,15 +36,18 @@ fun TransactionIcon(
 
 enum class TransactionIconType(
     val color: Color,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val title: String
     ){
     Credit(
         green01,
         Icons.Default.KeyboardArrowUp,
+        "Créditos"
     ),
     Debt(
         red01,
         Icons.Default.KeyboardArrowDown,
+        "Débitos"
     )
 }
 
