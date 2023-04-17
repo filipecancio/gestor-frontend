@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,7 +24,19 @@ fun HomeScreen() = Column(
     Modifier
         .fillMaxSize()
         .background(color = dark02)
+        .padding(horizontal = 16.dp)
 ) {
+
+    Text(
+        text = "Janeiro",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        color = gray01,
+        textAlign = TextAlign.Center,
+        fontSize = 24.sp
+    )
+    Spacer(modifier = Modifier.height(30.dp))
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -41,6 +54,7 @@ fun HomeScreen() = Column(
             fontSize = 32.sp
         )
     }
+    Spacer(modifier = Modifier.height(30.dp))
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -50,6 +64,7 @@ fun HomeScreen() = Column(
         TransactionCard(value = "R$249,50", type = TransactionIconType.Credit)
         TransactionCard(value = "R$150,50", type = TransactionIconType.Debt)
     }
+    Spacer(modifier = Modifier.height(30.dp))
     LazyColumn() {
         items(transactionList) {
             TransactionItem(transaction = it)

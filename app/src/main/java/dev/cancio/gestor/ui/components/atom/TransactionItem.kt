@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.cancio.gestor.presentation.screens.Transaction
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
@@ -30,18 +31,21 @@ fun TransactionItem(
             Text(
                 text = transaction.description,
                 color = gray01,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
             )
             Text(
                 text = transaction.bank,
-                color = gray03
+                color = gray03,
+                fontSize = 18.sp
             )
         }
     }
     Text(
         text = transaction.value,
         color = gray01,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
     )
 }
 

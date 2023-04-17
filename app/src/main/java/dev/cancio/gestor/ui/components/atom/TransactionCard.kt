@@ -27,7 +27,7 @@ fun TransactionCard(
             shape = RoundedCornerShape(10.dp),
             color = dark01
         )
-        .padding(8.dp),
+        .padding(24.dp,8.dp),
     verticalAlignment = Alignment.CenterVertically
 ) {
     TransactionIcon(type)
@@ -37,12 +37,12 @@ fun TransactionCard(
         Text(
             text = type.title,
             color = type.color,
-            fontSize = 8.sp
         )
         Text(
             text = value,
             color = gray01,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp
         )
     }
 }
