@@ -1,6 +1,8 @@
 package dev.cancio.gestor.presentation.screens
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,9 +22,17 @@ import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(context: Context) {
     val repository = TransactionRepository()
+    val transactionList = repository.getTransactionsFromJson(context)
+    val creditList = transactionList.filter { it.type == TransactionType.Credit }
+    val debtList = transactionList.filter { it.type == TransactionType.Debt }
+    val totalCredit = creditList.sumOf { it.value }
+    val totalDebt = debtList.sumOf { it.value }
+    val totalValue = totalCredit - totalDebt
+
     Column(
         Modifier
             .fillMaxSize()
@@ -47,12 +57,12 @@ fun HomeScreen(context: Context) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Saldo Total",
+                text = "Restante à pagar",
                 color = gray03,
                 fontSize = 18.sp
             )
             Text(
-                text = "R$3.250,00",
+                text = "R$ $totalValue",
                 color = gray01,
                 fontSize = 32.sp
             )
@@ -64,12 +74,12 @@ fun HomeScreen(context: Context) {
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ){
-            TransactionCard(value = "R$249,50", type = TransactionType.Credit)
-            TransactionCard(value = "R$150,50", type = TransactionType.Debt)
+            TransactionCard(value = "R$ $totalCredit", type = TransactionType.Credit)
+            TransactionCard(value = "R$ $totalDebt", type = TransactionType.Debt)
         }
         Spacer(modifier = Modifier.height(30.dp))
         LazyColumn() {
-            items(repository.getTransactionsFromJson(context)) {
+            items(transactionList) {
                 TransactionItem(transaction = it)
             }
         }
