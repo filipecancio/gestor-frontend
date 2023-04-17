@@ -8,15 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.cancio.gestor.presentation.screens.Transaction
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
 
 @Composable
 fun TransactionItem(
-    description: String,
-    bank: String,
-    value: String,
-    type: TransactionIconType
+    transaction: Transaction
 ) = Row(
     modifier = Modifier
         .fillMaxWidth()
@@ -27,21 +25,21 @@ fun TransactionItem(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TransactionIcon(type)
+        TransactionIcon(transaction.type)
         Column(Modifier.padding(start = 8.dp)) {
             Text(
-                text = description,
+                text = transaction.description,
                 color = gray01,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = bank,
+                text = transaction.bank,
                 color = gray03
             )
         }
     }
     Text(
-        text = value,
+        text = transaction.value,
         color = gray01,
         fontWeight = FontWeight.Bold
     )
@@ -50,4 +48,4 @@ fun TransactionItem(
 @Preview(showBackground = false)
 @Composable
 fun TransactionPreview() =
-    TransactionItem("IPTU", "NuConta - (01/05)", "R$59,90", TransactionIconType.Credit)
+    TransactionItem(Transaction("IPTU", "NuConta - (01/05)", "R$59,90", TransactionIconType.Credit))
