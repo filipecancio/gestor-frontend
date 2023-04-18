@@ -77,7 +77,9 @@ class TransactionRepository(
                 value = item.value.sumOf {it.value},
                 description = item.key,
                 bank = "",
-                timestamp = Date(),
+                timestamp = Calendar.getInstance().also {
+                    it.time = item.value.first().timestamp
+                }.time,
                 type = TransactionType.Credit
             )
         }

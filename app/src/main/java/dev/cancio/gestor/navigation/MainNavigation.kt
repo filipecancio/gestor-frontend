@@ -43,7 +43,7 @@ fun MainNavigation(navController: NavHostController) {
                 MonthlyScreen(navController)
             //}
         }
-        composable("section-detail",
+        composable("section-detail/{month}/{year}",
             arguments = listOf(
                 navArgument("month") { type = NavType.IntType },
                 navArgument("year") { type = NavType.IntType }

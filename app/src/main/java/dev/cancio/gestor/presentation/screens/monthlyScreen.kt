@@ -61,7 +61,9 @@ fun MonthlyScreen(
         LazyColumn() {
             items(currentList) {
                 Log.i("update", currentList.toString())
-                TransactionItem(transaction = it)
+                TransactionItem(transaction = it){
+                    navController.navigate("section-detail/${it.timestamp.month}/${it.timestamp.year}")
+                }
             }
         }
     }
