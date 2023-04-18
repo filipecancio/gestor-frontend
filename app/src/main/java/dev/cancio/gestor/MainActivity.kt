@@ -9,7 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import dev.cancio.gestor.presentation.screens.HomeScreen
+import androidx.navigation.compose.rememberNavController
+import dev.cancio.gestor.navigation.MainNavigation
 import dev.cancio.gestor.ui.theme.GestorTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,13 +18,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
             GestorTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen()
+                    MainNavigation(navController)
                 }
             }
         }

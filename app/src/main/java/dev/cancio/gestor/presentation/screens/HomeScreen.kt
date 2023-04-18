@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionCard
@@ -33,7 +33,9 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavHostController,
+) {
     val repository = TransactionRepository(LocalContext.current)
     val totalValue = repository.getTotalTransactionsValues()
     val currentList = remember { mutableStateOf(repository.getTransactions()) }
@@ -47,7 +49,7 @@ fun HomeScreen() {
     ) {
 
         Text(
-            text = "Janeiro",
+            text = "Gestor",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
@@ -107,7 +109,9 @@ fun HomeScreen() {
                 }
                 items(transactionItems) {
                     Log.i("update",transactionItems.toString())
-                    TransactionItem(transaction = it)
+                    TransactionItem(transaction = it){
+                        navController.navigate("detail/${it.id}")
+                    }
                 }
             }
         }
