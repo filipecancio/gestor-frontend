@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import dev.cancio.gestor.domain.MonthValue
 import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.repository.TransactionRepository
@@ -36,11 +37,12 @@ import kotlin.math.absoluteValue
 @Composable
 fun SectionScreen(
     month: Int,
-    year: Int
+    year: Int,
+    navController: NavHostController
 ) {
     val repository = TransactionRepository(LocalContext.current)
-    val totalValue = repository.getTotalTransactionsValues(month,year)
-    val currentList = remember { mutableStateOf(repository.getTransactions(month,year)) }
+    val totalValue = repository.getTotalTransactionsValues(month, year)
+    val currentList = remember { mutableStateOf(repository.getTransactions(month, year)) }
     val filterValue = remember { mutableStateOf("none") }
 
     Column(
@@ -51,7 +53,7 @@ fun SectionScreen(
     ) {
 
         Text(
-            text = MonthValue.getDate(month,year) ?: "",
+            text = MonthValue.getDate(month, year) ?: "",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
@@ -95,10 +97,11 @@ fun SectionScreen(
             ) {
                 if (filterValue.value == "none" || filterValue.value == "debt") {
                     filterValue.value = "credit"
-                    currentList.value = repository.getTransactions(month,year, TransactionType.Credit)
+                    currentList.value =
+                        repository.getTransactions(month, year, TransactionType.Credit)
                 } else {
                     filterValue.value = "none"
-                    currentList.value = repository.getTransactions(month,year)
+                    currentList.value = repository.getTransactions(month, year)
                 }
             }
             TransactionCard(
@@ -108,10 +111,11 @@ fun SectionScreen(
             ) {
                 if (filterValue.value == "none" || filterValue.value == "credit") {
                     filterValue.value = "debt"
-                    currentList.value = repository.getTransactions(month,year, TransactionType.Debt)
+                    currentList.value =
+                        repository.getTransactions(month, year, TransactionType.Debt)
                 } else {
                     filterValue.value = "none"
-                    currentList.value = repository.getTransactions(month,year)
+                    currentList.value = repository.getTransactions(month, year)
                 }
             }
         }
@@ -123,17 +127,11 @@ fun SectionScreen(
                 }
                 items(transactionItems) {
                     Log.i("update", transactionItems.toString())
-                    TransactionItem(transaction = it)
+                    TransactionItem(transaction = it) {
+                        navController.navigate("detail/${it.id}")
+                    }
                 }
             }
         }
     }
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun SectionScreenPreview() = SectionScreen(month = 3, year = 123)
