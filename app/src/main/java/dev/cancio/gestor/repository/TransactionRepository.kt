@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
 import java.io.IOException
+import java.util.*
 
 class TransactionRepository(
     private val context: Context
@@ -66,6 +67,20 @@ class TransactionRepository(
         .sortedByDescending { it.timestamp }
         .filter { it.timestamp.month == month && it.timestamp.year == year }
         .groupBy { it.dateFormat }
+
+    fun getMonthlyTransactions() = getTransactionsFromJson()
+        .sortedByDescending { it.timestamp }
+        .groupBy { it.dateFormat }
+        .map { item ->
+            Transaction(
+                id = 1,
+                value = item.value.sumOf {it.value},
+                description = item.key,
+                bank = "",
+                timestamp = Date(),
+                type = TransactionType.Credit
+            )
+        }
 
     private fun getTransactionsSum(type: TransactionType) = getTransactionsFromJson()
         .sortedByDescending { it.timestamp }
