@@ -30,6 +30,9 @@ class TransactionRepository(
         return jsonString
     }
 
+    fun getTransaction(transactionId: Int) = getTransactionsFromJson()
+        .filter{ it.id == transactionId }.first()
+
     fun getTransactions() = getTransactionsFromJson()
         .sortedByDescending { it.timestamp }
         .groupBy { it.dateFormat }

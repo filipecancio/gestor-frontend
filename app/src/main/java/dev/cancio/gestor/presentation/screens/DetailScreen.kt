@@ -17,8 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.cancio.gestor.domain.Transaction
-import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionHeader
 import dev.cancio.gestor.ui.components.atom.TransactionItem
@@ -33,9 +31,10 @@ import java.util.*
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailScreen(
-    transaction: Transaction
+    transactionId: Int
 ) {
     val repository = TransactionRepository(LocalContext.current)
+    val transaction = repository.getTransaction(transactionId)
     val currentList = repository.getTransactions(transaction.description)
 
     Column(
@@ -123,5 +122,5 @@ fun DetailScreen(
 )
 @Composable
 fun DetailScreenPreview(){
-    DetailScreen(transaction = Transaction(description="aluguel", bank="inter -  à vista", value=200.0, timestamp=Date(), type=TransactionType.Credit))
+    DetailScreen(20)
 }

@@ -9,6 +9,7 @@ import java.util.*
 
 
 data class Transaction(
+    val id:Int,
     val description: String,
     val bank: String,
     val value: Double,
