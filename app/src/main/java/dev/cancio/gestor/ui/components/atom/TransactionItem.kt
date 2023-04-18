@@ -61,4 +61,6 @@ fun TransactionItem(
 @Preview(showBackground = false)
 @Composable
 fun TransactionPreview() =
-    TransactionItem(Transaction(2,"IPTU", "NuConta - (01/05)", 59.90, Date(), TransactionType.Credit)) {}
+    TransactionItem(Transaction(2,"IPTU", "NuConta - (01/05)", 59.90, Date(), TransactionType.Credit)) {
+
+    }

@@ -23,7 +23,8 @@ fun MainNavigation(navController: NavHostController) {
             "detail/{transactionId}",
             arguments = listOf(navArgument("transactionId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val month = backStackEntry.arguments?.getInt("transactionId")?.let { DetailScreen(it) }
+            val month = backStackEntry.arguments?.getInt("transactionId")
+                ?.let { DetailScreen(it, navController) }
         }
         composable("section/{month}/{year}",
             arguments = listOf(

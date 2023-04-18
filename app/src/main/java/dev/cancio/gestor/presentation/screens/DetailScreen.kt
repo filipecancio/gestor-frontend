@@ -14,9 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionHeader
 import dev.cancio.gestor.ui.components.atom.TransactionItem
@@ -31,8 +31,9 @@ import java.util.*
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailScreen(
-    transactionId: Int
-) {
+    transactionId: Int,
+    navController: NavHostController
+    ) {
     val repository = TransactionRepository(LocalContext.current)
     val transaction = repository.getTransaction(transactionId)
     val currentList = repository.getTransactions(transaction.description)
@@ -107,20 +108,12 @@ fun DetailScreen(
                 }
                 items(transactionItems) {
                     Log.i("update",transactionItems.toString())
-                    TransactionItem(transaction = it)
+                    TransactionItem(transaction = it){
+                        navController.navigate("detail/${it.id}")
+                    }
                 }
             }
         }
     }
 
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun DetailScreenPreview(){
-    DetailScreen(20)
 }
