@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.cancio.gestor.domain.MonthValue
 import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionCard
@@ -50,7 +51,7 @@ fun SectionScreen(
     ) {
 
         Text(
-            text = "Janeiro",
+            text = MonthValue.getDate(month,year) ?: "",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
