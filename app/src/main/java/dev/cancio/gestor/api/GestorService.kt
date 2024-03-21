@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface GestorService {
     @GET("transactions/")
-    suspend fun getAllTransactions() : List<Transaction>
+    suspend fun getAllTransactions() : Map<String, List<Transaction>>
 
     @GET("transactions/{id}")
     suspend fun getTransactionsById(

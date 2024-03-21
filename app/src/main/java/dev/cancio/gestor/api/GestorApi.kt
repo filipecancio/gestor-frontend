@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GestorApi @Inject constructor(private val api: GestorService) {
 
-    suspend fun getAllTransactions(): List<Transaction> {
+    suspend fun getAllTransactions(): Map<String, List<Transaction>> {
         return api.getAllTransactions()
     }
 
