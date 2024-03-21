@@ -1,6 +1,7 @@
 package dev.cancio.gestor.navigation
 
 import android.os.Build
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
@@ -17,10 +18,20 @@ import dev.cancio.gestor.presentation.screens.DetailScreen
 import dev.cancio.gestor.presentation.screens.HomeScreen
 import dev.cancio.gestor.presentation.screens.MonthlyScreen
 import dev.cancio.gestor.presentation.screens.SectionScreen
+import dev.cancio.gestor.presentation.viewmodels.HomeViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.cancio.gestor.presentation.viewmodels.DetailViewModel
+import dev.cancio.gestor.presentation.viewmodels.MonthlyViewModel
+import dev.cancio.gestor.presentation.viewmodels.SectionViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainNavigation(navController: NavHostController) {
+    val homeViewModel = hiltViewModel<HomeViewModel>()
+    val detailViewModel = hiltViewModel<DetailViewModel>()
+    val monthlyViewModel = hiltViewModel<MonthlyViewModel>()
+    val sectionViewModel = hiltViewModel<SectionViewModel>()
+
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             HomeScreen(navController)
