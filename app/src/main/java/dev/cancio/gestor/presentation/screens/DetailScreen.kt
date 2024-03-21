@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import dev.cancio.gestor.presentation.viewmodels.DetailViewModel
 import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionHeader
 import dev.cancio.gestor.ui.components.atom.TransactionItem
@@ -32,7 +33,8 @@ import java.util.*
 @Composable
 fun DetailScreen(
     transactionId: Int,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: DetailViewModel
     ) {
     val repository = TransactionRepository(LocalContext.current)
     val transaction = repository.getTransaction(transactionId)

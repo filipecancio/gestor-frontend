@@ -36,6 +36,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun HomeScreen(
     navController: NavHostController,
+    viewModel: HomeViewModel
+
 ) {
     val repository = TransactionRepository(LocalContext.current)
     val totalValue = repository.getTotalTransactionsValues()

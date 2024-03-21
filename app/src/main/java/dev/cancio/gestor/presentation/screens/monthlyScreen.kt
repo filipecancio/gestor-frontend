@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.cancio.gestor.domain.MonthValue
 import dev.cancio.gestor.domain.TransactionType
+import dev.cancio.gestor.presentation.viewmodels.MonthlyViewModel
 import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionCard
 import dev.cancio.gestor.ui.components.atom.TransactionHeader
@@ -37,6 +38,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun MonthlyScreen(
     navController: NavHostController,
+    viewModel: MonthlyViewModel
 ) {
     val repository = TransactionRepository(LocalContext.current)
     val currentList = repository.getMonthlyTransactions()

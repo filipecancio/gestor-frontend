@@ -34,18 +34,18 @@ fun MainNavigation(navController: NavHostController) {
 
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomeScreen(navController)
+            HomeScreen(navController,homeViewModel)
         }
         composable(
             "detail/{transactionId}",
             arguments = listOf(navArgument("transactionId") { type = NavType.IntType })
         ) { backStackEntry ->
             val month = backStackEntry.arguments?.getInt("transactionId")
-                ?.let { DetailScreen(it, navController) }
+                ?.let { DetailScreen(it, navController,detailViewModel) }
         }
         composable("section",
         ) { backStackEntry ->
-                MonthlyScreen(navController)
+                MonthlyScreen(navController, monthlyViewModel)
         }
         composable("section-detail/{month}/{year}",
             arguments = listOf(
@@ -56,7 +56,7 @@ fun MainNavigation(navController: NavHostController) {
             val month = backStackEntry.arguments?.getInt("month")
             val year = backStackEntry.arguments?.getInt("year")
             if (month != null && year != null) {
-                SectionScreen(month, year,navController)
+                SectionScreen(month, year,navController, sectionViewModel)
             }
         }
     }
