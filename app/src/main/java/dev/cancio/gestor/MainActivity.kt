@@ -14,11 +14,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import dev.cancio.gestor.navigation.AppRoutes.MainRoute.itemList
 import dev.cancio.gestor.navigation.MainNavigation
 import dev.cancio.gestor.ui.components.molecule.BottomAppBar
 import dev.cancio.gestor.ui.theme.GestorTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.O)
