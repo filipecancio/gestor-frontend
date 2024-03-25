@@ -1,8 +1,11 @@
 package dev.cancio.gestor.repository
 
 import dev.cancio.gestor.api.GestorApi
+import dev.cancio.gestor.domain.TotalTransactionReport
 import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class NewTransactionRepository @Inject constructor(
@@ -46,11 +49,14 @@ class NewTransactionRepository @Inject constructor(
     private suspend fun getTransactionsSum(month: Int, year: Int, type: TransactionType): Double =
         api.getTransactionsSum(type, month, year).second
 
-    suspend fun getTotalTransactionsValues(): Map<String, Double> = api.getTotalTransactionsValues()
+    suspend fun getTotalTransactionsValues(): Flow<TotalTransactionReport> = flow {
+        val result = api.getTotalTransactionsValues()
+        emit(result)
+    }
 
-    suspend fun getTotalTransactionsValues(month: Int): Map<String, Double> =
+    suspend fun getTotalTransactionsValues(month: Int): TotalTransactionReport =
         api.getTotalTransactionsValues(month)
 
-    suspend fun getTotalTransactionsValues(month: Int, year: Int): Map<String, Double> =
+    suspend fun getTotalTransactionsValues(month: Int, year: Int): TotalTransactionReport =
         api.getTotalTransactionsValues(month, year)
 }

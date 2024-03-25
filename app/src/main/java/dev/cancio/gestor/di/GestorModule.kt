@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.cancio.gestor.api.GestorApi
 import dev.cancio.gestor.api.GestorService
+import dev.cancio.gestor.repository.NewTransactionRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -36,5 +37,9 @@ class GestorModule {
     @Singleton
     @Provides
     fun providesApi(service: GestorService) = GestorApi(service)
+
+    @Singleton
+    @Provides
+    fun providesRepository(api: GestorApi) = NewTransactionRepository(api)
 
 }

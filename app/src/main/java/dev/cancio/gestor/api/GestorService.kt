@@ -1,5 +1,6 @@
 package dev.cancio.gestor.api
 
+import dev.cancio.gestor.domain.TotalTransactionReport
 import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
 import retrofit2.http.GET
@@ -67,17 +68,17 @@ interface GestorService {
 
     @GET("transactions/sum/total")
     suspend fun getTotalTransactionsValues(
-    ) :  Map<String, Double>
+    ) : TotalTransactionReport
 
     @GET("transactions/sum/total")
     suspend fun getTotalTransactionsValues(
         @Query("month") month: Int
-    ) :  Map<String, Double>
+    ) :  TotalTransactionReport
 
     @GET("transactions/sum/total")
     suspend fun getTotalTransactionsValues(
         @Query("month") month: Int,
         @Query("year") year: Int
-    ) :  Map<String, Double>
+    ) :  TotalTransactionReport
 
 }

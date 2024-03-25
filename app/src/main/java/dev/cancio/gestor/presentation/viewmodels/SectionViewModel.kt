@@ -2,9 +2,12 @@ package dev.cancio.gestor.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.cancio.gestor.repository.NewTransactionRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
-class SectionViewModel  @Inject constructor(): ViewModel() {
+class SectionViewModel  @Inject constructor(
+    private val repository: NewTransactionRepository
+): ViewModel() {
 }

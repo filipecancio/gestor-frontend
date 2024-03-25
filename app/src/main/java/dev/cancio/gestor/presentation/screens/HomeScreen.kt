@@ -10,8 +10,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +32,7 @@ import dev.cancio.gestor.ui.components.atom.TransactionItem
 import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
+import kotlinx.coroutines.flow.observeOn
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
@@ -39,6 +44,7 @@ fun HomeScreen(
     viewModel: HomeViewModel
 
 ) {
+    val totalValueUIState by rememberUpdatedState(newValue = viewModel.totalValue.collectAsState())
     val repository = TransactionRepository(LocalContext.current)
     val totalValue = repository.getTotalTransactionsValues()
     val currentList = remember { mutableStateOf(repository.getTransactions()) }
@@ -50,6 +56,7 @@ fun HomeScreen(
             .background(color = dark02)
             .padding(horizontal = 16.dp)
     ) {
+        Text(text = totalValueUIState.value.toString())
 
         Text(
             text = "Gestor",

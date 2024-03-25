@@ -1,5 +1,6 @@
 package dev.cancio.gestor.api
 
+import dev.cancio.gestor.domain.TotalTransactionReport
 import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
 import retrofit2.http.GET
@@ -68,14 +69,14 @@ class GestorApi @Inject constructor(private val api: GestorService) {
     ) : Pair<String, Double> = api.getTransactionsSum(type, month, year)
 
     suspend fun getTotalTransactionsValues(
-    ) :  Map<String, Double> = api.getTotalTransactionsValues()
+    ) :  TotalTransactionReport = api.getTotalTransactionsValues()
 
     suspend fun getTotalTransactionsValues(
         month: Int
-    ) :  Map<String, Double> = api.getTotalTransactionsValues(month)
+    ) : TotalTransactionReport = api.getTotalTransactionsValues(month)
 
     suspend fun getTotalTransactionsValues(
         month: Int,
         year: Int
-    ) :  Map<String, Double> = api.getTotalTransactionsValues(month, year)
+    ) :  TotalTransactionReport = api.getTotalTransactionsValues(month, year)
 }
