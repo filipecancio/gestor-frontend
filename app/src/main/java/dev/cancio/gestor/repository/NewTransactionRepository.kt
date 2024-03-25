@@ -15,10 +15,11 @@ class NewTransactionRepository @Inject constructor(
     suspend fun getTransaction(transactionId: Int): Transaction =
         api.getTransactionsById(transactionId)
 
-    suspend fun getTransactions(): Map<String, List<Transaction>> = api.getAllTransactions()
+    suspend fun getTransactions(): Flow<Map<String, List<Transaction>>> =
+        flow { api.getAllTransactions() }
 
-    suspend fun getTransactions(type: TransactionType): Map<String, List<Transaction>> =
-        api.getFilteredTransactions(type)
+    suspend fun getTransactions(type: TransactionType): Flow<Map<String, List<Transaction>>> =
+        flow { api.getFilteredTransactions(type) }
 
     suspend fun getTransactions(month: Int, type: TransactionType): Map<String, List<Transaction>> =
         api.getFilteredTransactions(type, month)

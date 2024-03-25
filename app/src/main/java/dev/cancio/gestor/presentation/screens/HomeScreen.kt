@@ -44,7 +44,7 @@ fun HomeScreen(
     viewModel: HomeViewModel
 
 ) {
-    val totalValueUIState by rememberUpdatedState(newValue = viewModel.totalValue.collectAsState())
+    val homeUiStateFlow by rememberUpdatedState(newValue = viewModel.homeUiStateFlow.collectAsState())
     val repository = TransactionRepository(LocalContext.current)
     val totalValue = repository.getTotalTransactionsValues()
     val currentList = remember { mutableStateOf(repository.getTransactions()) }
@@ -56,7 +56,7 @@ fun HomeScreen(
             .background(color = dark02)
             .padding(horizontal = 16.dp)
     ) {
-        Text(text = totalValueUIState.value.toString())
+        Text(text = homeUiStateFlow.value.toString())
 
         Text(
             text = "Gestor",
