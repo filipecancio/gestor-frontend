@@ -2,6 +2,8 @@ package dev.cancio.gestor.api
 
 import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.domain.TransactionType
+import retrofit2.http.GET
+import retrofit2.http.Query
 import javax.inject.Inject
 
 class GestorApi @Inject constructor(private val api: GestorService) {
@@ -47,4 +49,33 @@ class GestorApi @Inject constructor(private val api: GestorService) {
     ): Map<String, List<Transaction>> {
         return api.getFilteredTransactions( month, year)
     }
+    
+    suspend fun getMonthlyTransactions() : List<Transaction> = api.getMonthlyTransactions()
+    
+    suspend fun getTransactionsSum(
+        type: TransactionType
+    ) : Pair<String, Double> = api.getTransactionsSum(type)
+
+    suspend fun getTransactionsSum(
+        type: TransactionType,
+        month: Int
+    ) : Pair<String, Double> = api.getTransactionsSum(type, month)
+
+    suspend fun getTransactionsSum(
+        type: TransactionType,
+        month: Int,
+        year: Int
+    ) : Pair<String, Double> = api.getTransactionsSum(type, month, year)
+
+    suspend fun getTotalTransactionsValues(
+    ) :  Map<String, Double> = api.getTotalTransactionsValues()
+
+    suspend fun getTotalTransactionsValues(
+        month: Int
+    ) :  Map<String, Double> = api.getTotalTransactionsValues(month)
+
+    suspend fun getTotalTransactionsValues(
+        month: Int,
+        year: Int
+    ) :  Map<String, Double> = api.getTotalTransactionsValues(month, year)
 }
