@@ -9,6 +9,11 @@ import dev.cancio.gestor.domain.Transaction
 import dev.cancio.gestor.repository.NewTransactionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,31 +28,24 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getTotalTransactionsValues()
-            getTransactions()
+            onStartScreen()
         }
     }
 
-    private suspend fun getTotalTransactionsValues() {
-        repository.getTotalTransactionsValues()
-            .collect {
-                _homeUiStateFlow.emit(
-                    _homeUiStateFlow.value.copy(
-                        totalValue = it
-                    )
+    private suspend fun onStartScreen() {
+        with(repository) {
+            combine(
+                getTransactions(),
+                getTotalTransactionsValues()
+            ) { transactionsList, totalTransaction ->
+                HomeState(
+                    totalValue = totalTransaction,
+                    currentList = transactionsList
                 )
+            }.collectLatest {
+                _homeUiStateFlow.emit(it)
             }
-    }
-
-    private suspend fun getTransactions() {
-        repository.getTransactions()
-            .collect {
-                _homeUiStateFlow.emit(
-                    _homeUiStateFlow.value.copy(
-                        currentList = it
-                    )
-                )
-            }
+        }
     }
 
     fun onCreditCardPressed(filter: FilterType) {

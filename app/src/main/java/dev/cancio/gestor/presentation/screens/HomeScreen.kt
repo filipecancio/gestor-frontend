@@ -1,7 +1,6 @@
 package dev.cancio.gestor.presentation.screens
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,12 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +21,6 @@ import androidx.navigation.NavHostController
 import dev.cancio.gestor.domain.FilterType
 import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.presentation.viewmodels.HomeViewModel
-import dev.cancio.gestor.repository.TransactionRepository
 import dev.cancio.gestor.ui.components.atom.TransactionCard
 import dev.cancio.gestor.ui.components.atom.TransactionHeader
 import dev.cancio.gestor.ui.components.atom.TransactionItem
@@ -51,7 +46,6 @@ fun HomeScreen(
             .padding(horizontal = 16.dp)
     ) {
         with(homeUiStateFlow.value){
-            Text(text = totalValue.toString())
             Text(
                 text = "Gestor",
                 modifier = Modifier
@@ -86,10 +80,10 @@ fun HomeScreen(
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ){
-                TransactionCard(value = totalValue?.creditFormatted.orZeroFormatted(), type = TransactionType.Credit, selected = (filterValue == FilterType.CREDIT)){
+                TransactionCard(value = totalValue?.creditFormatted.orZeroFormatted(), type = TransactionType.CREDIT, selected = (filterValue == FilterType.CREDIT)){
                     viewModel.onDebtCardPressed(filterValue)
                 }
-                TransactionCard(value = totalValue?.debtFormatted.orZeroFormatted(), type = TransactionType.Debt, selected = (filterValue == FilterType.DEBT)){
+                TransactionCard(value = totalValue?.debtFormatted.orZeroFormatted(), type = TransactionType.DEBT, selected = (filterValue == FilterType.DEBT)){
                     viewModel.onCreditCardPressed(filterValue)
                 }
             }
@@ -100,7 +94,6 @@ fun HomeScreen(
                         TransactionHeader(date)
                     }
                     items(transactionItems) {
-                        Log.i("update",transactionItems.toString())
                         TransactionItem(transaction = it){
                             navController.navigate("detail/${it.id}")
                         }

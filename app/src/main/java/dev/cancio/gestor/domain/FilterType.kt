@@ -9,8 +9,8 @@ enum class FilterType {
     fun isDebtOrNone() = this == DEBT || this == NONE
 
     fun toTransactionType() = when(this){
-        CREDIT -> TransactionType.Credit
-        DEBT -> TransactionType.Debt
+        CREDIT -> TransactionType.CREDIT
+        DEBT -> TransactionType.DEBT
         NONE -> null
     }
 }

@@ -20,7 +20,7 @@ class GestorApi @Inject constructor(private val api: GestorService) {
     suspend fun getFilteredTransactions(
         type: TransactionType
     ): Map<String, List<Transaction>> {
-        return api.getFilteredTransactions(type)
+        return api.getFilteredTransactionsByType(type.toRequest())
     }
 
     suspend fun getFilteredTransactions(

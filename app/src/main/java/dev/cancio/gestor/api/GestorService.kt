@@ -17,8 +17,8 @@ interface GestorService {
     ) : Transaction
 
     @GET("transactions/all/")
-    suspend fun getFilteredTransactions(
-        @Query("type")  type: TransactionType
+    suspend fun getFilteredTransactionsByType(
+        @Query("type")  type: Int
     ) : Map<String, List<Transaction>>
 
     @GET("transactions/all/")

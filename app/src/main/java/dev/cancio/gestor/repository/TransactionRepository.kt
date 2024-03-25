@@ -80,7 +80,7 @@ class TransactionRepository(
                 timestamp = Calendar.getInstance().also {
                     it.time = item.value.first().timestamp
                 }.time,
-                type = TransactionType.Credit
+                type = TransactionType.CREDIT
             )
         }
 
@@ -101,34 +101,34 @@ class TransactionRepository(
             .sumOf { it.value }
 
     fun getTotalTransactionsValues() = mapOf(
-        Pair("credit", getTransactionsSum(TransactionType.Credit)),
-        Pair("debt", getTransactionsSum(TransactionType.Debt)),
+        Pair("credit", getTransactionsSum(TransactionType.CREDIT)),
+        Pair("debt", getTransactionsSum(TransactionType.DEBT)),
         Pair(
             "total",
-            getTransactionsSum(TransactionType.Debt) - getTransactionsSum(TransactionType.Credit)
+            getTransactionsSum(TransactionType.DEBT) - getTransactionsSum(TransactionType.CREDIT)
         )
     )
 
     fun getTotalTransactionsValues(month: Int) = mapOf(
-        Pair("credit", getTransactionsSum(month, TransactionType.Credit)),
-        Pair("debt", getTransactionsSum(month, TransactionType.Debt)),
+        Pair("credit", getTransactionsSum(month, TransactionType.CREDIT)),
+        Pair("debt", getTransactionsSum(month, TransactionType.DEBT)),
         Pair(
             "total",
-            getTransactionsSum(month, TransactionType.Debt) - getTransactionsSum(
+            getTransactionsSum(month, TransactionType.DEBT) - getTransactionsSum(
                 month,
-                TransactionType.Credit
+                TransactionType.CREDIT
             )
         )
     )
 
     fun getTotalTransactionsValues(month: Int, year: Int) = mapOf(
-        Pair("credit", getTransactionsSum(month, year, TransactionType.Credit)),
-        Pair("debt", getTransactionsSum(month, year, TransactionType.Debt)),
+        Pair("credit", getTransactionsSum(month, year, TransactionType.CREDIT)),
+        Pair("debt", getTransactionsSum(month, year, TransactionType.DEBT)),
         Pair(
             "total",
-            getTransactionsSum(month, year, TransactionType.Debt) - getTransactionsSum(
+            getTransactionsSum(month, year, TransactionType.DEBT) - getTransactionsSum(
                 month, year,
-                TransactionType.Credit
+                TransactionType.CREDIT
             )
         )
     )

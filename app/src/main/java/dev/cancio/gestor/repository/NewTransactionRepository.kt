@@ -1,5 +1,6 @@
 package dev.cancio.gestor.repository
 
+import android.util.Log
 import dev.cancio.gestor.api.GestorApi
 import dev.cancio.gestor.domain.TotalTransactionReport
 import dev.cancio.gestor.domain.Transaction
@@ -16,10 +17,16 @@ class NewTransactionRepository @Inject constructor(
         api.getTransactionsById(transactionId)
 
     suspend fun getTransactions(): Flow<Map<String, List<Transaction>>> =
-        flow { api.getAllTransactions() }
+        flow {
+            val result = api.getAllTransactions()
+            emit(result)
+        }
 
     suspend fun getTransactions(type: TransactionType): Flow<Map<String, List<Transaction>>> =
-        flow { api.getFilteredTransactions(type) }
+        flow {
+            val result = api.getFilteredTransactions(type)
+            emit(result)
+        }
 
     suspend fun getTransactions(month: Int, type: TransactionType): Map<String, List<Transaction>> =
         api.getFilteredTransactions(type, month)

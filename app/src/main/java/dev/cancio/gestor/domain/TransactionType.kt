@@ -18,17 +18,22 @@ enum class TransactionType(
     val title: String
 ){
     @SerializedName("0")
-    Credit(
+    CREDIT(
         green01,
         green02,
         Icons.Default.KeyboardArrowUp,
         "Créditos"
     ),
     @SerializedName("1")
-    Debt(
+    DEBT(
         red01,
         red02,
         Icons.Default.KeyboardArrowDown,
         "Débitos"
-    )
+    );
+
+    fun toRequest(): Int = when(this){
+        CREDIT -> 0
+        DEBT -> 1
+    }
 }

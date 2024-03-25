@@ -1,6 +1,5 @@
 package dev.cancio.gestor.ui.components.atom
 
-import android.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -56,6 +55,6 @@ fun TransactionCard(
 @Preview(showBackground = false)
 @Composable
 fun TransactionCardPreview() = Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-    TransactionCard(value = "R$249,50", type = TransactionType.Credit) {}
-    TransactionCard(value = "R$150,50", type = TransactionType.Debt) {}
+    TransactionCard(value = "R$249,50", type = TransactionType.CREDIT) {}
+    TransactionCard(value = "R$150,50", type = TransactionType.DEBT) {}
 }

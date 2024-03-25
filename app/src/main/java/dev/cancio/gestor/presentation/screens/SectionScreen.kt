@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -94,13 +93,13 @@ fun SectionScreen(
         ) {
             TransactionCard(
                 value = "R$ ${DecimalFormat("#.##").format(totalValue["credit"])}",
-                type = TransactionType.Credit,
+                type = TransactionType.CREDIT,
                 selected = (filterValue.value == "credit")
             ) {
                 if (filterValue.value == "none" || filterValue.value == "debt") {
                     filterValue.value = "credit"
                     currentList.value =
-                        repository.getTransactions(month, year, TransactionType.Credit)
+                        repository.getTransactions(month, year, TransactionType.CREDIT)
                 } else {
                     filterValue.value = "none"
                     currentList.value = repository.getTransactions(month, year)
@@ -108,13 +107,13 @@ fun SectionScreen(
             }
             TransactionCard(
                 value = "R$ ${DecimalFormat("#.##").format(totalValue["debt"])}",
-                type = TransactionType.Debt,
+                type = TransactionType.DEBT,
                 selected = (filterValue.value == "debt")
             ) {
                 if (filterValue.value == "none" || filterValue.value == "credit") {
                     filterValue.value = "debt"
                     currentList.value =
-                        repository.getTransactions(month, year, TransactionType.Debt)
+                        repository.getTransactions(month, year, TransactionType.DEBT)
                 } else {
                     filterValue.value = "none"
                     currentList.value = repository.getTransactions(month, year)
