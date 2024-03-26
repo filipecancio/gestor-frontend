@@ -45,7 +45,7 @@ fun HomeScreen(
             .background(color = dark02)
             .padding(horizontal = 16.dp)
     ) {
-        with(homeUiStateFlow.value){
+        with(homeUiStateFlow.value) {
             Text(
                 text = "Gestor",
                 modifier = Modifier
@@ -56,7 +56,7 @@ fun HomeScreen(
                 fontSize = 24.sp
             )
             Spacer(modifier = Modifier.height(30.dp))
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
@@ -74,27 +74,35 @@ fun HomeScreen(
                 )
             }
             Spacer(modifier = Modifier.height(30.dp))
-            Row (
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
-            ){
-                TransactionCard(value = totalValue?.creditFormatted.orZeroFormatted(), type = TransactionType.CREDIT, selected = (filterValue == FilterType.CREDIT)){
+            ) {
+                TransactionCard(
+                    value = totalValue?.creditFormatted.orZeroFormatted(),
+                    type = TransactionType.CREDIT,
+                    selected = (filterValue == FilterType.CREDIT)
+                ) {
                     viewModel.onDebtCardPressed(filterValue)
                 }
-                TransactionCard(value = totalValue?.debtFormatted.orZeroFormatted(), type = TransactionType.DEBT, selected = (filterValue == FilterType.DEBT)){
+                TransactionCard(
+                    value = totalValue?.debtFormatted.orZeroFormatted(),
+                    type = TransactionType.DEBT,
+                    selected = (filterValue == FilterType.DEBT)
+                ) {
                     viewModel.onCreditCardPressed(filterValue)
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
             LazyColumn {
-                currentList.forEach{(date,transactionItems)->
+                currentList.forEach { (date, transactionItems) ->
                     stickyHeader {
                         TransactionHeader(date)
                     }
                     items(transactionItems) {
-                        TransactionItem(transaction = it){
+                        TransactionItem(transaction = it) {
                             navController.navigate("detail/${it.id}")
                         }
                     }

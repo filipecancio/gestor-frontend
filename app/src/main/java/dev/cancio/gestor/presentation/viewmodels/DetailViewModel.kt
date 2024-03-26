@@ -28,8 +28,8 @@ class DetailViewModel @Inject constructor(
     fun onStartScreen(transactionId: Int) {
         viewModelScope.launch {
             with(repository) {
-                getTransaction(transactionId).collect{ transaction ->
-                    getTransactions(transaction.description).collect{ transactionList ->
+                getTransaction(transactionId).collectLatest{ transaction ->
+                    getTransactions(transaction.description).collectLatest{ transactionList ->
                         _detailUiStateFlow.emit(
                             DetailState(
                                 transaction = transaction,

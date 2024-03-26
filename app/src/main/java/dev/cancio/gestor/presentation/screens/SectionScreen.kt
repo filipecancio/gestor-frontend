@@ -10,8 +10,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import dev.cancio.gestor.domain.FilterType
 import dev.cancio.gestor.domain.MonthValue
 import dev.cancio.gestor.domain.TransactionType
 import dev.cancio.gestor.presentation.viewmodels.SectionViewModel
@@ -29,6 +33,7 @@ import dev.cancio.gestor.ui.components.atom.TransactionItem
 import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
+import dev.cancio.gestor.util.orZeroFormatted
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
@@ -41,95 +46,76 @@ fun SectionScreen(
     navController: NavHostController,
     viewModel: SectionViewModel
 ) {
-    val repository = TransactionRepository(LocalContext.current)
-    val totalValue = repository.getTotalTransactionsValues(month, year)
-    val currentList = remember { mutableStateOf(repository.getTransactions(month, year)) }
-    val filterValue = remember { mutableStateOf("none") }
-
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(color = dark02)
-            .padding(horizontal = 16.dp)
-    ) {
-
-        Text(
-            text = MonthValue.getDate(month, year) ?: "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            color = gray01,
-            textAlign = TextAlign.Center,
-            fontSize = 24.sp
-        )
-        Spacer(modifier = Modifier.height(30.dp))
+    viewModel.onStartScreen(month, year)
+    val sectionUiStateFlow by rememberUpdatedState(newValue = viewModel.sectionUiStateFlow.collectAsState())
+    with(sectionUiStateFlow.value){
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            Modifier
+                .fillMaxSize()
+                .background(color = dark02)
+                .padding(horizontal = 16.dp)
         ) {
+
             Text(
-                text = if (totalValue["total"]!! > 0.0) {
-                    "Restante à pagar"
-                } else {
-                    "Valor Sobrando"
-                },
-                color = gray03,
-                fontSize = 18.sp
-            )
-            Text(
-                text = "R$ ${DecimalFormat("#.##").format(totalValue["total"]?.absoluteValue)}",
+                text = MonthValue.getDate(month, year) ?: "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
                 color = gray01,
-                fontSize = 32.sp
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp
             )
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            TransactionCard(
-                value = "R$ ${DecimalFormat("#.##").format(totalValue["credit"])}",
-                type = TransactionType.CREDIT,
-                selected = (filterValue.value == "credit")
+            Spacer(modifier = Modifier.height(30.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (filterValue.value == "none" || filterValue.value == "debt") {
-                    filterValue.value = "credit"
-                    currentList.value =
-                        repository.getTransactions(month, year, TransactionType.CREDIT)
-                } else {
-                    filterValue.value = "none"
-                    currentList.value = repository.getTransactions(month, year)
+                Text(
+                    text = totalValue?.totalDescription ?: "",
+                    color = gray03,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = totalValue?.totalFormatted.orZeroFormatted(),
+                    color = gray01,
+                    fontSize = 32.sp
+                )
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                TransactionCard(
+                    value = totalValue?.creditFormatted.orZeroFormatted(),
+                    type = TransactionType.CREDIT,
+                    selected = (filterValue == FilterType.CREDIT)
+                ) {
+                    viewModel.onDebtCardPressed(filterValue)
+                }
+                TransactionCard(
+                    value = totalValue?.debtFormatted.orZeroFormatted(),
+                    type = TransactionType.DEBT,
+                    selected = (filterValue == FilterType.DEBT)
+                ) {
+                    viewModel.onCreditCardPressed(filterValue)
                 }
             }
-            TransactionCard(
-                value = "R$ ${DecimalFormat("#.##").format(totalValue["debt"])}",
-                type = TransactionType.DEBT,
-                selected = (filterValue.value == "debt")
-            ) {
-                if (filterValue.value == "none" || filterValue.value == "credit") {
-                    filterValue.value = "debt"
-                    currentList.value =
-                        repository.getTransactions(month, year, TransactionType.DEBT)
-                } else {
-                    filterValue.value = "none"
-                    currentList.value = repository.getTransactions(month, year)
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        LazyColumn() {
-            currentList.value.forEach { (date, transactionItems) ->
-                stickyHeader {
-                    TransactionHeader(date)
-                }
-                items(transactionItems) {
-                    Log.i("update", transactionItems.toString())
-                    TransactionItem(transaction = it) {
-                        navController.navigate("detail/${it.id}")
+            Spacer(modifier = Modifier.height(30.dp))
+            LazyColumn() {
+                currentList.forEach { (date, transactionItems) ->
+                    stickyHeader {
+                        TransactionHeader(date)
+                    }
+                    items(transactionItems) {
+                        Log.i("update", transactionItems.toString())
+                        TransactionItem(transaction = it) {
+                            navController.navigate("detail/${it.id}")
+                        }
                     }
                 }
             }

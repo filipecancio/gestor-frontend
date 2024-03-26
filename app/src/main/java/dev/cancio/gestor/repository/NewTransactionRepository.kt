@@ -47,8 +47,10 @@ class NewTransactionRepository @Inject constructor(
     suspend fun getTransactions(month: Int): Map<String, List<Transaction>> =
         api.getFilteredTransactions(month)
 
-    suspend fun getTransactions(month: Int, year: Int): Map<String, List<Transaction>> =
-        api.getFilteredTransactions(month, year)
+    suspend fun getTransactions(month: Int, year: Int): Flow<Map<String, List<Transaction>>> = flow {
+        val result = api.getFilteredTransactions(month, year)
+        emit(result)
+    }
 
     suspend fun getMonthlyTransactions(): Flow<List<Transaction>> = flow {
         val result = api.getMonthlyTransactions()
@@ -72,6 +74,9 @@ class NewTransactionRepository @Inject constructor(
     suspend fun getTotalTransactionsValues(month: Int): TotalTransactionReport =
         api.getTotalTransactionsValues(month)
 
-    suspend fun getTotalTransactionsValues(month: Int, year: Int): TotalTransactionReport =
-        api.getTotalTransactionsValues(month, year)
+    suspend fun getTotalTransactionsValues(month: Int, year: Int): Flow<TotalTransactionReport> =
+        flow{
+            val result = api.getTotalTransactionsValues(month, year)
+            emit(result)
+        }
 }
