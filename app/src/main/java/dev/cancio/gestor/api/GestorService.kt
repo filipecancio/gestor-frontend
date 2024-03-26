@@ -37,43 +37,16 @@ interface GestorService {
     @GET("transactions/all/")
     suspend fun getFilteredTransactions(
         @Query("month") month: Int,
-    ) : Map<String, List<Transaction>>
-
-    @GET("transactions/all/")
-    suspend fun getFilteredTransactions(
-        @Query("month") month: Int,
         @Query("year") year: Int
     ) : Map<String, List<Transaction>>
 
     @GET("transactions/monthly/")
     suspend fun getMonthlyTransactions() : List<Transaction>
 
-    @GET("transactions/sum/")
-    suspend fun getTransactionsSum(
-        @Query("type")  type: TransactionType
-    ) : Pair<String, Double>
-
-    @GET("transactions/sum/")
-    suspend fun getTransactionsSum(
-        @Query("type")  type: TransactionType,
-        @Query("month") month: Int
-    ) : Pair<String, Double>
-
-    @GET("transactions/sum/")
-    suspend fun getTransactionsSum(
-        @Query("type")  type: TransactionType,
-        @Query("month") month: Int,
-        @Query("year") year: Int
-    ) : Pair<String, Double>
-
     @GET("transactions/sum/total")
     suspend fun getTotalTransactionsValues(
     ) : TotalTransactionReport
 
-    @GET("transactions/sum/total")
-    suspend fun getTotalTransactionsValues(
-        @Query("month") month: Int
-    ) :  TotalTransactionReport
 
     @GET("transactions/sum/total")
     suspend fun getTotalTransactionsValues(
