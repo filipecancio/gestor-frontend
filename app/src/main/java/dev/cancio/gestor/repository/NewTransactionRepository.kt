@@ -13,8 +13,10 @@ class NewTransactionRepository @Inject constructor(
     private val api: GestorApi
 ) {
 
-    suspend fun getTransaction(transactionId: Int): Transaction =
-        api.getTransactionsById(transactionId)
+    suspend fun getTransaction(transactionId: Int): Flow<Transaction> = flow {
+        val result = api.getTransactionsById(transactionId)
+        emit(result)
+    }
 
     suspend fun getTransactions(): Flow<Map<String, List<Transaction>>> =
         flow {
@@ -37,8 +39,10 @@ class NewTransactionRepository @Inject constructor(
         type: TransactionType
     ): Map<String, List<Transaction>> = api.getFilteredTransactions(type, month, year)
 
-    suspend fun getTransactions(description: String): Map<String, List<Transaction>> =
-        api.getAllTransactions()
+    suspend fun getTransactions(description: String): Flow<Map<String, List<Transaction>>> = flow {
+        val result = api.getAllTransactions()
+        emit(result)
+    }
 
     suspend fun getTransactions(month: Int): Map<String, List<Transaction>> =
         api.getFilteredTransactions(month)
@@ -46,7 +50,10 @@ class NewTransactionRepository @Inject constructor(
     suspend fun getTransactions(month: Int, year: Int): Map<String, List<Transaction>> =
         api.getFilteredTransactions(month, year)
 
-    suspend fun getMonthlyTransactions(): List<Transaction> = api.getMonthlyTransactions()
+    suspend fun getMonthlyTransactions(): Flow<List<Transaction>> = flow {
+        val result = api.getMonthlyTransactions()
+        emit(result)
+    }
 
     private suspend fun getTransactionsSum(type: TransactionType): Double =
         api.getTransactionsSum(type).second

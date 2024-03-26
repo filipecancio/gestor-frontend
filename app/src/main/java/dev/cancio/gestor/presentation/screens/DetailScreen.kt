@@ -11,6 +11,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +28,7 @@ import dev.cancio.gestor.ui.theme.dark01
 import dev.cancio.gestor.ui.theme.dark02
 import dev.cancio.gestor.ui.theme.gray01
 import dev.cancio.gestor.ui.theme.gray03
+import dev.cancio.gestor.util.orZeroFormatted
 import java.text.DecimalFormat
 import java.util.*
 
@@ -36,82 +40,82 @@ fun DetailScreen(
     navController: NavHostController,
     viewModel: DetailViewModel
     ) {
-    val repository = TransactionRepository(LocalContext.current)
-    val transaction = repository.getTransaction(transactionId)
-    val currentList = repository.getTransactions(transaction.description)
-
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(color = dark02)
-            .padding(horizontal = 16.dp)
-    ) {
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = transaction.description,
-                color = gray03,
-                fontSize = 18.sp
-            )
-            Text(
-                text = "R$ ${DecimalFormat("#.##").format(transaction.value)}",
-                color = gray01,
-                fontSize = 32.sp
-            )
-        }
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 30.dp)
-        ) {
-            Text(
-                text = "Registro feito por:",
-                color = gray03,
-                fontSize = 16.sp
-            )
-            Text(
-                text = transaction.bank,
-                color = gray01,
-                fontSize = 18.sp
-            )
-        }
-        Row(
+    viewModel.onStartScreen(transactionId = transactionId)
+    val detailUiStateFlow by rememberUpdatedState(newValue = viewModel.detailUiStateFlow.collectAsState())
+    with(detailUiStateFlow.value){
+        Column(
             Modifier
-                .background(
-                    shape = RoundedCornerShape(10.dp),
-                    color = dark01
-                )
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize()
+                .background(color = dark02)
+                .padding(horizontal = 16.dp)
         ) {
-            Text(
-                text = " Comprovante de pagamento",
-                color = gray01,
-                fontSize = 18.sp
-            )
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Row{
-            Text(
-                text = "Outras transações com a descrição \"${transaction.description}\":",
-                color = gray01,
-                fontSize = 16.sp
-            )
-        }
-        LazyColumn() {
-            currentList.forEach{(date,transactionItems)->
-                stickyHeader {
-                    TransactionHeader(date)
-                }
-                items(transactionItems) {
-                    Log.i("update",transactionItems.toString())
-                    TransactionItem(transaction = it){
-                        navController.navigate("detail/${it.id}")
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = transaction?.description ?: "",
+                    color = gray03,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = transaction?.moneyValue.orZeroFormatted(),
+                    color = gray01,
+                    fontSize = 32.sp
+                )
+            }
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 30.dp)
+            ) {
+                Text(
+                    text = "Registro feito por:",
+                    color = gray03,
+                    fontSize = 16.sp
+                )
+                Text(
+                    text = transaction?.bank ?: "",
+                    color = gray01,
+                    fontSize = 18.sp
+                )
+            }
+            Row(
+                Modifier
+                    .background(
+                        shape = RoundedCornerShape(10.dp),
+                        color = dark01
+                    )
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = " Comprovante de pagamento",
+                    color = gray01,
+                    fontSize = 18.sp
+                )
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            Row{
+                Text(
+                    text = "Outras transações com a descrição \"${transaction?.description}\":",
+                    color = gray01,
+                    fontSize = 16.sp
+                )
+            }
+            LazyColumn() {
+                currentList.forEach{(date,transactionItems)->
+                    stickyHeader {
+                        TransactionHeader(date)
+                    }
+                    items(transactionItems) {
+                        Log.i("update",transactionItems.toString())
+                        TransactionItem(transaction = it){
+                            navController.navigate("detail/${it.id}")
+                        }
                     }
                 }
             }
