@@ -47,7 +47,7 @@ fun TransactionCard(
             text = value,
             color = gray01,
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = 16.sp
         )
     }
 }
